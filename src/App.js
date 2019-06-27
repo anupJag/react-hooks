@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Todo from './components/Todo';
+import Header from './components/Header';
+import Auth from './components/Auth';
+import AuthContext from './auth-context';
 
 function App() {
+
+  const [showTodo, setShowTodo] = useState(0);
+
+  const todoListClickedHandler = (state) => {
+    setShowTodo(state);
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h3>React App</h3>
+      <AuthContext.Provider>
+        <Header
+          onTodoListClicked={todoListClickedHandler.bind(this, 1)}
+          onAuthClicked={todoListClickedHandler.bind(this, 0)}
+        />
+        <hr />
+        {
+          showTodo ? <Todo /> : <Auth />
+        }
+      </AuthContext.Provider>
     </div>
   );
 }
